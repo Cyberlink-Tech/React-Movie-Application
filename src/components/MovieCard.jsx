@@ -13,7 +13,7 @@ class MovieCard extends Component {
             <img
               src={image}
               style={{ width: '100%', maxHeight: 400 }}
-              alt="Movie Image"
+              alt="Movie"
 
             />
             <Row >
