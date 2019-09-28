@@ -40,6 +40,7 @@ class MovieCard extends Component {
                   className="float-right"
                   style={{ backgroundColor: 'red' }}
                   onClick={() => {
+                    this.props.toggleModal()
                     return getMovieDetail(id)
                   }}
                 >

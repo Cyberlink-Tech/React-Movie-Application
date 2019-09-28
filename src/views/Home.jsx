@@ -25,7 +25,8 @@ class Home extends Component {
     Axios.get('http://www.omdbapi.com/?s=man&apikey=d08f6dbc')
     .then(res => {
       return this.setState({
-        movies: res.data.Search
+        movies: res.data.Search,
+        isMoviesLoading: false
       })
     })
     .catch(err => {
@@ -37,7 +38,7 @@ class Home extends Component {
     Axios.get(`${MOVIE_ENDPOINT}/?i=${id}&${API_KEY}`)
     .then(res => {
       return this.setState({
-        movies: res.data
+        movieDetails: res.data
       })
     })
     .catch(err => {
@@ -45,15 +46,23 @@ class Home extends Component {
     })
   }
 
+  toggleModal = () => {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen
+    })
+  }
+
 
   render() {
-    const { movies } = this.state;
+    const { movies, isModalOpen, isMoviesLoading, movieDetails } = this.state;
     return (
       <Container>
         <Col className="jumbotron" style={{backgroundColor: 'white'}}>
           <h1 className="title text-center display-4">A Movie App Gist</h1>
         </Col>
-        <Row >
+        {
+          !isMoviesLoading ? (
+            <Row >
           {movies.map(movie => (
             <Col sm="6" key={movie.imdbID}>
           <MovieCard 
@@ -64,11 +73,15 @@ class Home extends Component {
             ratings={Math.floor(Math.random() * 5)}
             getMovieDetail={this.getMovieDetail}
             id={movie.imdbID}
+            toggleModal={this.toggleModal}
           />
           </Col>
           ))}
           
         </Row>
+          ) :
+          'Loading ....'
+        }
       </Container>
     )
   }
